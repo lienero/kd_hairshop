@@ -4,14 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'index');
 
-Route::get('/appo', function () {
-    return view('appo');
-});
-
-Route::get('/appcheck', function () {
-    return view('apppcheck');
-});
-
 Route::get('/introduction', function () {
     return view('introduction');
 });
