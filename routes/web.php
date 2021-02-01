@@ -43,4 +43,6 @@ Route::get('/appoint', [AppointController::class,'index']);
 
 Route::get('/appoint/create',  [AppointController::class,'create']); 
 
+Route::get('/appoint/designer',  [AppointController::class,'designer']); 
+
 Route::post('/appoint',  [AppointController::class,'store']); 
