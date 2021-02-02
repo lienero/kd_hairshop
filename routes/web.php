@@ -4,14 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'index');
 
-Route::get('/appo', function () {
-    return view('appo');
-});
-
-Route::get('/appcheck', function () {
-    return view('apppcheck');
-});
-
 Route::get('/introduction', function () {
     return view('introduction');
 });
@@ -20,8 +12,8 @@ Route::get('/login', function () {
     return view('login');
 });
 
-Route::get('/Member registration', function () {
-    return view('Member registration');
+Route::get('/Member_registration', function () {
+    return view('Member_registration');
 });
 
 Route::get('/mypage', function () {
@@ -42,5 +34,7 @@ use App\Http\Controllers\AppointController;
 Route::get('/appoint', [AppointController::class,'index']); 
 
 Route::get('/appoint/create',  [AppointController::class,'create']); 
+
+Route::get('/appoint/designer',  [AppointController::class,'designer']); 
 
 Route::post('/appoint',  [AppointController::class,'store']); 

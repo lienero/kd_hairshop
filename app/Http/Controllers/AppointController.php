@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // use App\Task를 하면 모델인 Task 클래스를 상속받는다.
 use App\Appoint; // 테이블명 지정
+use App\Shift; // 테이블명 지정
 
 class AppointController extends Controller
 {
@@ -46,8 +47,8 @@ class AppointController extends Controller
         $nextyear = $year + 1;
 
 
-        // comments 를 선언하고 변수 안에 쿼리빌더의 결과를 넣는다.
-        // 테이블은 Task 테이블이고 grp와 sort를 정렬한다.
+        // appoints 를 선언하고 변수 안에 쿼리빌더의 결과를 넣는다.
+        // 테이블은 Appoint 테이블
         $appoints = Appoint::get();
 
         // mktime 함수는 연도, 월, 일, 시, 분, 초를 받아서 타임스탬프값을 만들어 리턴하는 역활을 합니다.
@@ -92,6 +93,32 @@ class AppointController extends Controller
     public function create() //생성페이지 메소드
     {
         return view('appoint.create');
+    }
+
+    public function designer(Request $request) //디자니어페이지 메소드
+    {
+        // $year, $month 값이 없으면 현재 날짜
+        $year = $_GET['year'];
+        $month = $_GET['month'];
+        $day = $_GET['day'];
+        if($day < 10) {
+            $day = '0'.$day;
+        }
+        $date = $year.'-0'.$month.'-'.$day;
+        $appoint_time = array("10:00", "10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30"
+        ,"17:00","17:30","18:00","18:30","19:00","19:30");
+
+        $disigners = Shift::where('date', $date)->get();
+        $appoints = Appoint::where('appoint_st','like', $date.'%')->orderBy('appoint_st','asc')->get();
+        return view('appoint.designer', [
+            'disigners'=>$disigners,
+            'appoints'=>$appoints,
+            'year'=>$year,
+            'month'=>$month,
+            'day'=>$day,
+            'date'=>$date,
+            'appoint_time'=>$appoint_time
+        ]);
     }
 
     public function store() //저장 메소드
