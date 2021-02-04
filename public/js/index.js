@@ -72,6 +72,22 @@ function sliderButton1(){
     
     
     });
+    mobiscroll.settings = {
+        lang: 'en',            
+        theme: 'ios',          
+        themeVariant: 'light' 
+    };
+
+    mobiscroll.select('#demo-mobile', {
+        display: 'bubble'      
+    });
+
+    mobiscroll.select('#demo-desktop', {
+        display: 'bubble',     
+        touchUi: false         
+    });
 });
+
+
 
   
