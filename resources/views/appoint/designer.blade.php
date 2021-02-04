@@ -21,7 +21,7 @@
                   
           <div class="container mx-auto grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div class="p-2 sm:p-10 text-center cursor-pointer mx-auto">
-                  <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500 bg-white hover:bg-gray-400">
+                  <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg  transition duration-500 bg-white hover:bg-gray-400">
                       <div class="space-y-10">
                           <img src="/img/cut1.jpg" alt="">
                           <div class="px-6 py-4">
@@ -53,7 +53,7 @@
               </div>
       
               <div class="p-2 sm:p-10 text-center cursor-pointer translate-x-2 mx-auto">
-                  <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500 bg-white hover:bg-gray-400">
+                  <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg  transition duration-500 bg-white hover:bg-gray-400">
                       <div class="space-y-10">
                         <img src="/img/cut1.jpg" alt="">
                           <div class="px-6 py-4">
@@ -72,7 +72,7 @@
           <div class="container mx-auto grid grid-cols-1 gap-4 sm:grid-cols-3 ">
       
             <div class="p-2 sm:p-10 text-center cursor-pointer mx-auto">
-                <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500  bg-white hover:bg-gray-400">
+                <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg  transition duration-500  bg-white hover:bg-gray-400">
                     <div class="space-y-10">
                         <img src="/img/cut1.jpg" alt="">
                         <div class="px-6 py-4">
@@ -104,7 +104,7 @@
             </div>
     
             <div class="p-2 sm:p-10 text-center cursor-pointer translate-x-2 mx-auto">
-                <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500 bg-white hover:bg-gray-400">
+                <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg  transition duration-500 bg-white hover:bg-gray-400">
                     <div class="space-y-10">
                       <img src="/img/cut1.jpg" alt="">
                         <div class="px-6 py-4">
