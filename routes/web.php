@@ -25,16 +25,16 @@ Route::get('/price', function () {
 });
 
 Route::get('/manager', function () {
-    return view('manager');
+    return view('manager.index');
 });
 
 
 Route::get('/manager/appo_management', function () {
-    return view('appo_management');
+    return view('manager.appo_management');
 });
 
 Route::get('/manager/shift_management', function () {
-    return view('shift_management');
+    return view('manager.shift_management');
 });
 
 

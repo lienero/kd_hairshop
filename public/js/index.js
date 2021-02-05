@@ -88,6 +88,11 @@ function sliderButton1(){
     });
 });
 
+//check-all//
 
-
+$( document ).ready( function() {
+    $( '.check-all' ).click( function() {
+      $( '.ab' ).prop( 'checked', this.checked );
+    } );
+  } );
   
