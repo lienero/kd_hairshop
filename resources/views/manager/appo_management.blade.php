@@ -60,6 +60,8 @@
                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
                         {{$appoint->designer}}</td>
                     <form action="/manager/appo_management" method="POST">
+                        {{-- @csrf : CSRF(크로스-사이트 요청 위조 공격)으로부터 보호 --}}
+                        @csrf
                         <input type="hidden" name="date" value="{{$date}}">
                         <input type="hidden" name="delNo" value="{{$appoint->No}}">
                         <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
