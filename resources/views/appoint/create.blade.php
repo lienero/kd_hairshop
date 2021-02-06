@@ -2,38 +2,44 @@
 @section('content')
 
 <form action="/appoint" method="POST">
-@csrf
-<div class="w-full bg-cover bg-center" style="height:32rem; background-image:url(/img/hair1.jpg)">
-    <div class="flex items-center justify-center h-full w-full bg-gray-900 bg-opacity-50">
-        <div class="text-center">
-            <h1 class="text-white text-2xl font-semibold uppercase md:text-3xl">KD-hairshop <span class="underline text-white">非会員予約</span></h1>
+    @csrf
+    <div class="w-full bg-cover bg-center" style="height:32rem; background-image:url(/img/hair1.jpg)">
+        <div class="flex items-center justify-center h-full w-full bg-gray-900 bg-opacity-50">
+            <div class="text-center">
+                <h1 class="text-white text-2xl font-semibold uppercase md:text-3xl">KD-hairshop <span
+                        class="underline text-white">非会員予約</span></h1>
+            </div>
         </div>
     </div>
-</div>
-<br>
-<div class="container mx-auto">
-            <div class="appearance-none label-floating">
-                <input type="hidden" id = "date" name = "date" value="{{$date}}">
-                <input class="mx-auto tracking-wide py-2 px-4 mb-3 leading-relaxed appearance-none block  w-sp bg-gray-200 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-500 focus:text-black"
+    <br>
+    <div class="container mx-auto">
+        <div class="appearance-none label-floating">
+            <input type="hidden" id="date" name="date" value="{{$date}}">
+            <input
+                class="mx-auto tracking-wide py-2 px-4 mb-3 leading-relaxed appearance-none block  w-sp bg-gray-200 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-500 focus:text-black"
                 id="name" name="mem_id" type="text" placeholder="予約者名" required style="color :black; font-weight:bold;">
-                <label for="name" class="absolute tracking-wide py-2 px-4 mb-4 opacity-0 leading-tight block top-0 left-0 cursor-text text-black" >
-                </label>
-            </div>
-            <div class="appearance-none label-floating">
-                <input class="mx-auto tracking-wide py-2 px-4 mb-3 leading-relaxed appearance-none block w-sp bg-gray-200 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-500 focus:text-black"
-                id="name" name="email" type="text" placeholder="メールアドレス" required style="color :black; font-weight:bold;">
-                <label for="name" class="absolute tracking-wide py-2 px-4 mb-4 opacity-0 leading-tight block top-0 left-0 cursor-text">
-                </label>
-            </div>
-</div>
-<div class="container mx-auto">
+            <label for="name"
+                class="absolute tracking-wide py-2 px-4 mb-4 opacity-0 leading-tight block top-0 left-0 cursor-text text-black">
+            </label>
+        </div>
+        <div class="appearance-none label-floating">
+            <input
+                class="mx-auto tracking-wide py-2 px-4 mb-3 leading-relaxed appearance-none block w-sp bg-gray-200 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-500 focus:text-black"
+                id="name" name="email" type="text" placeholder="メールアドレス" required
+                style="color :black; font-weight:bold;">
+            <label for="name"
+                class="absolute tracking-wide py-2 px-4 mb-4 opacity-0 leading-tight block top-0 left-0 cursor-text">
+            </label>
+        </div>
+    </div>
+    <div class="container mx-auto">
         <div class="" mbsc-form style="">
             <div class="mbsc-grid mbsc-form-grid">
-                    <div class="mx-auto mbsc-col-sm-12 mbsc-col-md-6">
+                <div class="mx-auto mbsc-col-sm-12 mbsc-col-md-6">
                     @if($designer == 'x')
                     <label>
-                            職員選び
-                            <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="designer">
+                        職員選び
+                        <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="designer">
                             <?php
                             foreach ($designers as $designer) {
                                 for($j = 1; $j < 7; $j++ ){
@@ -46,24 +52,30 @@
                                             }
                                         }
                                         if($count == 0){
-                                            echo '<option value="'.$staff.'">'.$staff.$designer[0].'</option>';
+                                            echo '<option value="'.$staff.'">'.$staff.'</option>';
                                         }
                                     }
                                 }     
                             }    
                             ?>
-                            </select>
-                        </label>
-                        <label>
-                            職員選び
-                            <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="designer">
-                                <option id = "time" name = "time" value="{{$time}}">{{$datetime}}</option>
-                            </select>
-                        </label>
+                        </select>
+                    </label>
+                    <label>
+                        時間選び
+                        <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="time">
+                            <option value="{{$time}}">{{$datetime}}</option>
+                        </select>
+                    </label>
                     @else
-                        <label>
-                            時間選び
-                            <select mbsc-dropdown id="demo-mobile" data-input-style="box" name="time">
+                    <label>
+                        職員選び
+                        <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="designer">
+                            <option value="{{$designer}}">{{$designer}}</option>
+                        </select>
+                    </label>
+                    <label>
+                        時間選び
+                        <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="time">
                             <?php
                             $j = 0;
                             $page_count = 0;
@@ -124,24 +136,25 @@
                                 }
                             }
                             ?>
-                            </select>
-                        </label>
-                        @endif 
-                        <label>
-                            ヘアスタイル選び
-                            <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="hair_style">
-                                <option value="Cut">カット: 5,000 円（30 分）</option>
-                                <option value="Perm">パーマ：6,000 円（1 時間）</option>
-                                <option value="Color">カラー：4,000 円 (1 時間）</option>
-                            </select>
-                        </label>      
-                    </div>
+                        </select>
+                    </label>
+                    @endif
+                    <label>
+                        ヘアスタイル選び
+                        <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="hair_style">
+                            <option value="Cut">カット: 5,000 円（30 分）</option>
+                            <option value="Perm">パーマ：6,000 円（1 時間）</option>
+                            <option value="Color">カラー：4,000 円 (1 時間）</option>
+                        </select>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="flex justify-center">
-    <input type="submit" value="予約" class="bg-gray-900 rounded-lg font-bold text-lg text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-gray-200 hover:text-gray-900 mr-6"/>
-</div>
+    </div>
+    <div class="flex justify-center">
+        <input type="submit" value="予約"
+            class="bg-gray-900 rounded-lg font-bold text-lg text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-gray-200 hover:text-gray-900 mr-6" />
+    </div>
 </form>
 @endsection
