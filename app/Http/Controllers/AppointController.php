@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 // use App\Task를 하면 모델인 Task 클래스를 상속받는다.
 use App\Appoint; // 테이블명 지정
 use App\Shift; // 테이블명 지정
@@ -98,7 +99,7 @@ class AppointController extends Controller
         $datetime = $date." ".$time; 
         $strto_date = strtotime($datetime.'+30 minutes');
         // date("Y-m-d h:i:s", $strto_appoint_end[$l]); : 변수를 date Y-m-d h:i:s 형식으로 변경
-        $strto_date = date("Y-m-d h:i:s", $strto_date);
+        $strto_date = date("Y-m-d H:i:s", $strto_date);
 
         $appoint_time = array("10:00", "10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30"
         ,"17:00","17:30","18:00","18:30","19:00","19:30");
@@ -173,7 +174,7 @@ class AppointController extends Controller
             $appoint_end = strtotime($appoint_st.'+1 hours');
         }
         // date("Y-m-d h:i:s", $strto_appoint_end[$l]); : 변수를 date Y-m-d h:i:s 형식으로 변경
-        $appoint_end = date("Y-m-d h:i:s", $appoint_end);
+        $appoint_end = date("Y-m-d H:i:s", $appoint_end);
 
         Appoint::get();
         $Appoint = new Appoint;
@@ -184,7 +185,9 @@ class AppointController extends Controller
         $Appoint->appoint_st = $appoint_st;
         $Appoint->appoint_end = $appoint_end;
         $Appoint->save();
-        
+
+        Alert::success('예약완료', '예약이 완료 되었습니다.');
+
         return redirect("/appoint");
     }
 }
