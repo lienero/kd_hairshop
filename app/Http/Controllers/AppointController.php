@@ -134,10 +134,17 @@ class AppointController extends Controller
         $year = $_GET['year'];
         $month = $_GET['month'];
         $day = $_GET['day'];
-        if($day < 10) {
-            $day = '0'.$day;
+        if($month < 10){
+            $dt_month = '0'.$month;
+        }else{
+            $dt_month = $month;
         }
-        $date = $year.'-0'.$month.'-'.$day;
+        if($day < 10) {
+            $dt_day = '0'.$day;
+        }else{
+            $dt_day = $day;
+        }
+        $date = $year.'-0'.$dt_month.'-'.$dt_day;
         $staff_count = 0;
         $appoint_time = array("10:00", "10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30"
         ,"17:00","17:30","18:00","18:30","19:00","19:30");
