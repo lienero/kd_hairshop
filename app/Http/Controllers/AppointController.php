@@ -197,7 +197,7 @@ class AppointController extends Controller
 
         Alert::success('예약완료', '예약이 완료 되었습니다.');
 
-        return redirect("/appoint");
+        return redirect("/");
     }
 
         // use Illuminate\Http\Request 클래스의 변수
@@ -320,11 +320,14 @@ class AppointController extends Controller
         {
             // 임시 아이디
             $mem_id = '이경민'; 
+            $date = date("Y-m-d H:i:s");
 
             $appoints = Appoint::where('mem_id','like', $mem_id)->get();
+            $dt_appoints = Appoint::where([['mem_id','like', $mem_id],['appoint_st','>=', $date],])->get();
     
             return view('mypage.index', [
-                'appoints' => $appoints
+                'appoints' => $appoints,
+                'dt_appoints' => $dt_appoints
             ]);
         }
 
