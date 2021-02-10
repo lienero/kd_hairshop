@@ -55,8 +55,6 @@
             <p class="text-black">パーマ：6,000 円（1時間)</p>
             <p class="text-black">カラー：4,000 円 (1時間)</p>
          
-      
-    
             <!--Footer-->
             <div class="flex justify-end pt-2">
               <button class="modal-close px-4 bg-gray-800 p-3 rounded-lg text-white hover:bg-gray-600">Close</button>
