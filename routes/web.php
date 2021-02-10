@@ -62,8 +62,9 @@ Route::post('/mypage',  [AppointController::class,'mypage_delete']);
 use App\Http\Controllers\ShiftController;
 
 // 시프트 관리 기능
-Route::get('/manager/shift_management', [ShiftController::class,'shift_management']); 
+Route::get('/manager/shift_management', [ShiftController::class,'shift_management']);
 
+Route::post('/manager/shift_management', [ShiftController::class,'shift_store']);
 
 Route::get('/manager/shift_calender', [ShiftController::class,'shift_calender']); 
 
