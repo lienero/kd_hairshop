@@ -1,30 +1,10 @@
 @extends('layouts.main')
+@extends('layouts.sliderbox')
+@extends('layouts.nav_bar_manager')
 @section('content')
-<br>
-<div class="sliderAx h-auto">
-  <div id="slider-1" class="container mx-auto">
-    <div class="bg-cover bg-center  h-auto text-white py-24 px-10 object-fill"
-      style="background-image: url(/img/sliderbox1.jpg)">
-      <div class="md:w-1/2">
-        <p class="text-3xl font-bold">KD-hairshop</p>
-        <p class="text-2xl mb-10 leading-none">あなたに合う最高のスタイルを...</p>
-        <a href="/introduction"
-          class="bg-gray-700 py-4 px-8 text-white font-bold uppercase text-xl rounded hover:bg-gray-200 hover:text-gray-700">詳しく</a>
-      </div>
-    </div>
-  </div>
-</div>
-<!--appointment box-->
-<div class="container mx-auto">
-  <div class="grid grid-cols-2">
-    <a href="/manager/appo_calender" class="">
-      <div class="bg-gray-800 text-center text-2xl hover:bg-gray-200 hover:text-black font-bold">予約管理</div>
-    </a>
-    <a href="/manager/shift_calender">
-      <div class="bg-gray-600 text-center text-2xl font-bold hover:bg-gray-200 hover:text-black font-bold">シフト管理</div>
-    </a>
-  </div>
-</div>
+<form action="/manager" method="POST">
+  {{-- @csrf : CSRF(크로스-사이트 요청 위조 공격)으로부터 보호 --}}
+  @csrf
 <div class="container mx-auto">
   <div class="align-middle inline-block min-w-full shadow overflow-hidden bg-white shadow-dashboard px-8 pt-3">
       <table class="min-w-full">
@@ -53,54 +33,47 @@
               </tr>
           </thead>
           <tbody class="bg-white">
+            @foreach($appoints as $appoint)
+            <?php list($st_date, $st_time) = explode(" ", $appoint->appoint_st); ?>
             <tr>
                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
                     <div class="flex items-center">
                         <div>
                             <div class="text-sm leading-5 text-gray-800">
                                 <label class="flex items-center">
-                                <input type="checkbox" class="form-checkbox ab">
-                              </label></div>
+                                    <input type="checkbox" class="form-checkbox ab" name="checked[]" value="{{$appoint->No}}">
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                    <div class="text-sm leading-5 text-blue-900">09:00</div>
+                    <div class="text-sm leading-5 text-blue-900">{{$st_time}}</div>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">bomul1230</td>
-                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">bomul1230@gmail.com</td>
-                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">two-block</td>
-                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">1500円</td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                    {{$appoint->mem_id}}
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                    {{$appoint->mem_email}}
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                    {{$appoint->hair_style}}
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
+                    {{$appoint->designer}}
+                </td>
+                <input type="hidden" name="date" value="{{$date}}">
+                <input type="hidden" name="delNo" value="{{$appoint->No}}">
                 <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-                    <button class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">Cancel</button>
-                </td>
-            </tr>        
-            <tr>
-                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                    <div class="flex items-center">
-                        <div>
-                            <div class="text-sm leading-5 text-gray-800">
-                                <label class="flex items-center">
-                                <input type="checkbox" class="form-checkbox ab">
-                              </label></div>
-                        </div>
-                    </div>
-                </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                    <div class="text-sm leading-5 text-blue-900">09:00</div>
-                </td>
-                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">bomul1230</td>
-                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">bomul1230@gmail.com</td>
-                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">two-block</td>
-                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">1500円</td>
-                <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-                    <button class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">Cancel</button>
+                    <button type="submit" class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">Cancel</button>
                 </td>
             </tr>
+            @endforeach
         </tbody>
       </table>  
   </div>
-</div>  
+</div>
+</form>  
 <div class="container mx-auto kd_bg">
   <br>
   <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl ">
