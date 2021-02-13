@@ -29,6 +29,7 @@ Route::get('/manager/shift_management', function () {
 // Route::메소드('URL경로', '컨트롤러의 클래스명@메소드명'); 을 지정
 // 경로가 맞다면 TaskController 클래스의 index 메소드가 실행
 
+
 // 예약 기능 컨트롤러
 use App\Http\Controllers\AppointController;
 
@@ -68,3 +69,10 @@ Route::post('/manager/shift_management', [ShiftController::class,'shift_store'])
 
 Route::get('/manager/shift_calender', [ShiftController::class,'shift_calender']); 
 
+use App\Http\Controllers\MemberController;
+
+// 로그인,회원가입
+
+Route::POST('/login/login',[MemberController::class,'member_login']);
+
+Route::post('/login/register', [MemberController::class,'member_register']);
