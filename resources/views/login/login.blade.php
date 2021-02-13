@@ -3,9 +3,7 @@
 @section('content')
 
 <div class="min-h-screen flex items-center justify-center bg-blue-100 py-12 px-4 sm:px-6 lg:px-8">
- 
-   
- 
+
     <img  style="border:20px;margin:50px;float:left;width:500px;height: 500px;" class="object-cover" src="/img/main_login.jpg">
      <hr>
 
@@ -16,7 +14,7 @@
           KD-hairshopにようこそ
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
-          <a href="create.html" class="font-medium text-blue-600 hover:text-blue-500">
+          <a href="/login/register" class="font-medium text-blue-600 hover:text-blue-500">
             ID新規取得
           </a>
         </p>
