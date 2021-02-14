@@ -92,7 +92,7 @@
                             {{$dt_appoint->hair_style}}
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
-                            {{$dt_appoint->designer}}
+                            {{$designer_name[$dt_appoint->designer]}}
                         </td>
                         <input type="hidden" name="delNo" value="{{$dt_appoint->No}}">
                         <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
@@ -100,6 +100,30 @@
                         </td>
                     </tr>
                     @endforeach
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900  text-sm leading-5 text-left">
+                            <a href="/mypage?dt_page={{ $dt_startPage }}">◀◀</a>
+                          <span class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 text-sm leading-5">
+                            <?php 
+                            if($dt_pageNum == 1) {
+                              echo "◀</span>";
+                            } else { 
+                              echo '<a href="/mypage?dt_page='.($dt_pageNum-1).'">◀</a></span>';
+                            } 
+                            if($dt_pageNum == $dt_totalPage) { 
+                              echo '<span class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 text-sm leading-5">▶</span>';
+                            } else { 
+                              echo '<span class="px-6 py-4 whitespace-no-wrap border-b text-blue-900  text-sm leading-5"><a href ="/mypage?dt_page='.($dt_pageNum+1).'">▶</a></span>';
+                            } ?>   
+                            <a href = "/mypage?dt_page={{ $dt_endPage }}">▶▶</a>
+                        </td>
+                      </tr>
                 </tbody>
             </table>
             </div>
@@ -139,10 +163,32 @@
                             {{$appoint->hair_style}}
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
-                            {{$appoint->designer}}
+                            {{$designer_name[$appoint->designer]}}
                         </td>
                     </tr>
                     @endforeach
+                    <tr class="text-center">
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900  text-sm leading-5 text-left">
+                            <a href="/mypage?page={{ $startPage }}">◀◀</a>
+                          <span class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 text-sm leading-5">
+                            <?php 
+                            if($pageNum == 1) {
+                              echo "◀</span>";
+                            } else { 
+                              echo '<a href="/mypage?page='.($pageNum-1).'">◀</a></span>';
+                            } 
+                            if($pageNum == $totalPage) { 
+                              echo '<span class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 text-sm leading-5">▶</span>';
+                            } else { 
+                              echo '<span class="px-6 py-4 whitespace-no-wrap border-b text-blue-900  text-sm leading-5"><a href ="/mypage?page='.($pageNum+1).'">▶</a></span>';
+                            } ?>
+                            <a href = "/mypage?page={{ $endPage }}">▶▶</a>
+                        </td>
+                      </tr>
                 </tbody>
             </table>
         </div>

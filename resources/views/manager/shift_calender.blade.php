@@ -20,18 +20,26 @@ Shift Calendar
         <ul class="flex flex-col md:flex-row items-cneter">
             @if(session('member_id'))
             <li class="md:ml-16 mt-3 md:mt-0">
-                <a href="/login/logout" class="hover:text-gray-300 font-bold">ログアウト</a>
+                <a href="/login/logout" class="text-white hover:text-gray-300 font-bold">ログアウト</a>
+            </li>
+            @if(session('rank'))
+            <li class="md:ml-6 mt-3 md:mt-0">
+                <a href="/manager" class="text-white hover:text-gray-300 font-bold">マネージャーページ</a>
             </li>
             @else
-            <li class="md:ml-16 mt-3 md:mt-0">
-                <a href="/login/login" class="hover:text-gray-300 font-bold">ログイン</a>
+            <li class="md:ml-6 mt-3 md:mt-0">
+                <a href="/mypage" class="text-white hover:text-gray-300 font-bold">マイページ</a>
             </li>
             @endif
-            <li class="md:ml-6 mt-3 md:mt-0">
-                <a href="/login/register" class="hover:text-gray-300 font-bold">会員登録</a>
+            @else
+            <li class="md:ml-16 mt-3 md:mt-0">
+                <a href="/login/login" class="text-white hover:text-gray-300 font-bold">ログイン</a>
             </li>
+            <li class="md:ml-6 mt-3 md:mt-0">
+                <a href="/login/register" class="text-white hover:text-gray-300 font-bold">会員登録</a>
+            </li>
+            @endif
         </ul>
-    </div>
 </nav>
 <br>
 @if(session('rank'))

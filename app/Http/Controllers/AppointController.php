@@ -304,12 +304,43 @@ class AppointController extends Controller
         public function management(Request $request) 
         {
             date_default_timezone_set('Asia/Seoul');
-            // $date 값이 없으면 현재 날짜
             $date = date("Y-m-d");
-    
-            $appoints = Appoint::where('appoint_st','like', $date.'%')->orderBy('appoint_st','asc')->get();
+
+            $pageNum     = $request->input('page');
+            // view에서 넘어온 현재페이지의 파라미터 값.
+            $pageNum     = (isset($pageNum)?$pageNum:1);
+            // 페이지 번호가 없으면 1, 있다면 그대로 사용
+            $startNum    = ($pageNum-1)*5;
+            // 페이지 내 첫 게시글 번호
+            $writeList   = 5;
+            // 한 페이지당 표시될 글 갯수
+            $pageNumList = 5;
+            // 전체 페이지 중 표시될 페이지 갯수
+            $pageGroup   = ceil($pageNum/$pageNumList);
+            // 페이지 그룹 번호
+            $startPage   = (($pageGroup-1)*$pageNumList)+1;
+            // 페이지 그룹 내 첫 페이지 번호
+            $endPage     = $startPage + $pageNumList-1;
+            // 페이지 그룹 내 마지막 페이지 번호
+            $totalCount  = Appoint::where('appoint_st','like', $date.'%')->count();
+            // 전체 게시글 갯수
+            $totalPage   = ceil($totalCount/$writeList);
+            // 전체 페이지 갯수
+            if($endPage >= $totalPage) {
+            $endPage = $totalPage;
+            } // 페이지 그룹이 마지막일 때 마지막 페이지 번호
+
+            $designer_name = array('staff_1'=>'天海 春香', 'staff_2'=>'如月 千早', 'staff_3'=>'星井 美希', 'staff_4'=>'萩原 雪歩' ,'staff_5'=>'四条 貴音', 'staff_6'=>'水瀬 伊織');
+            $appoints = Appoint::where('appoint_st','like', $date.'%')->orderBy('appoint_st','asc')->skip($startNum)->take($writeList)->get();
+            
 
             return view('manager.index', [
+                'totalCount'=>$totalCount,
+                'pageNum'=>$pageNum,
+                'startPage'=>$startPage,
+                'endPage'=>$endPage,
+                'totalPage'=>$totalPage,
+                'designer_name'=>$designer_name,
                 'appoints'=>$appoints,
                 'date'=>$date
             ]);
@@ -323,17 +354,15 @@ class AppointController extends Controller
     
             $appoints = Appoint::where('appoint_st','like', $date.'%')->orderBy('appoint_st','asc')->get();
             
-            if($request->input('all') != NULL){
-                Appoint::where('appoint_st','like', $date.'%')->delete();
-            } else if($request->input('checked') != NULL) {
+            if($request->input('checked') != NULL) {
                 $checked = $request->input('checked');
                 foreach($checked as $check){
                     Appoint::where('No', $check)->delete();
                 }
+                Alert::error('予約取り消し', '予約が取り消されました。');
             } else {
-                Appoint::where('No', $request->input('delNo'))->delete();
+                Alert::warning('チェックエラー', 'チェックボックスをチェックしてください。');
             }
-            Alert::error('予約取り消し', '予約が取り消されました。');
     
             return redirect('/manager');
         }
@@ -343,11 +372,42 @@ class AppointController extends Controller
         {
             // $date 값이 없으면 현재 날짜
             $date = $_GET['date'];
+
+            $pageNum     = $request->input('page');
+            // view에서 넘어온 현재페이지의 파라미터 값.
+            $pageNum     = (isset($pageNum)?$pageNum:1);
+            // 페이지 번호가 없으면 1, 있다면 그대로 사용
+            $startNum    = ($pageNum-1)*10;
+            // 페이지 내 첫 게시글 번호
+            $writeList   = 10;
+            // 한 페이지당 표시될 글 갯수
+            $pageNumList = 10;
+            // 전체 페이지 중 표시될 페이지 갯수
+            $pageGroup   = ceil($pageNum/$pageNumList);
+            // 페이지 그룹 번호
+            $startPage   = (($pageGroup-1)*$pageNumList)+1;
+            // 페이지 그룹 내 첫 페이지 번호
+            $endPage     = $startPage + $pageNumList-1;
+            // 페이지 그룹 내 마지막 페이지 번호
+            $totalCount  = Appoint::where('appoint_st','like', $date.'%')->count();
+            // 전체 게시글 갯수
+            $totalPage   = ceil($totalCount/$writeList);
+            // 전체 페이지 갯수
+            if($endPage >= $totalPage) {
+            $endPage = $totalPage;
+            } // 페이지 그룹이 마지막일 때 마지막 페이지 번호
     
+            $designer_name = array('staff_1'=>'天海 春香', 'staff_2'=>'如月 千早', 'staff_3'=>'星井 美希', 'staff_4'=>'萩原 雪歩' ,'staff_5'=>'四条 貴音', 'staff_6'=>'水瀬 伊織');
             $designers = Shift::where('date', $date)->get();
-            $appoints = Appoint::where('appoint_st','like', $date.'%')->orderBy('appoint_st','asc')->get();
+            $appoints = Appoint::where('appoint_st','like', $date.'%')->orderBy('appoint_st','asc')->skip($startNum)->take($writeList)->get();
 
             return view('manager.appo_management', [
+                'totalCount'=>$totalCount,
+                'pageNum'=>$pageNum,
+                'startPage'=>$startPage,
+                'endPage'=>$endPage,
+                'totalPage'=>$totalPage,
+                'designer_name'=>$designer_name,
                 'designers'=>$designers,
                 'appoints'=>$appoints,
                 'date'=>$date
@@ -363,19 +423,15 @@ class AppointController extends Controller
             $designers = Shift::where('date', $date)->get();
             $appoints = Appoint::where('appoint_st','like', $date.'%')->orderBy('appoint_st','asc')->get();
             
-            if($request->input('all') != NULL){
-                // 삭제요청
-                Appoint::where('appoint_st','like', $date.'%')->delete();
-            } else if($request->input('checked') != NULL) {
+            if($request->input('checked') != NULL) {
                 $checked = $request->input('checked');
                 foreach($checked as $check){
                     Appoint::where('No', $check)->delete();
                 }
+                Alert::error('予約取り消し', '予約が取り消されました。');
             } else {
-                Appoint::where('No', $request->input('delNo'))->delete();
+                Alert::warning('チェックエラー', 'チェックボックスをチェックしてください。');
             }
-    
-            Alert::error('予約取り消し', '予約が取り消されました。');
     
             return redirect('/manager/appo_management?date='.$date.'');
         }
@@ -383,15 +439,64 @@ class AppointController extends Controller
         //마이페이지 메소드
         public function mypage(Request $request)
         {
+            date_default_timezone_set('Asia/Seoul');
+
             // 아이디
             $mem_id = session('member_id'); 
             $date = date("Y-m-d H:i:s");
 
-            $appoints = Appoint::where('mem_id','like', $mem_id)->get();
-            $dt_appoints = Appoint::where([['mem_id','like', $mem_id],['appoint_st','>=', $date],])->get();
+            $pageNum     = $request->input('page');
+            $dt_pageNum     = $request->input('dt_page');
+            // view에서 넘어온 현재페이지의 파라미터 값.
+            $pageNum     = (isset($pageNum)?$pageNum:1);
+            $dt_pageNum     = (isset($dt_pageNum)?$dt_pageNum:1);
+            // 페이지 번호가 없으면 1, 있다면 그대로 사용
+            $startNum    = ($pageNum-1)*5;
+            $dt_startNum    = ($dt_pageNum-1)*5;
+            // 페이지 내 첫 게시글 번호
+            $writeList   = 5;
+            // 한 페이지당 표시될 글 갯수
+            $pageNumList = 5;
+            // 전체 페이지 중 표시될 페이지 갯수
+            $pageGroup   = ceil($pageNum/$pageNumList);
+            $dt_pageGroup   = ceil($dt_pageNum/$pageNumList);
+            // 페이지 그룹 번호
+            $startPage   = (($pageGroup-1)*$pageNumList)+1;
+            $dt_startPage   = (($dt_pageGroup-1)*$pageNumList)+1;
+            // 페이지 그룹 내 첫 페이지 번호
+            $endPage     = $startPage + $pageNumList-1;
+            $dt_endPage     = $startPage + $pageNumList-1;
+            // 페이지 그룹 내 마지막 페이지 번호
+            $totalCount  = Appoint::where('mem_id','like', $mem_id)->count();
+            $dt_totalCount  = Appoint::where([['mem_id','like', $mem_id],['appoint_st','>=', $date],])->count();
+            // 전체 게시글 갯수
+            $totalPage   = ceil($totalCount/$writeList);
+            $dt_totalPage   = ceil($dt_totalCount/$writeList);
+            // 전체 페이지 갯수
+            if($endPage >= $totalPage) {
+            $endPage = $totalPage;
+            } // 페이지 그룹이 마지막일 때 마지막 페이지 번호
+            if($dt_endPage >= $dt_totalPage) {
+                $dt_endPage = $dt_totalPage;
+            } // 페이지 그룹이 마지막일 때 마지막 페이지 번호
+
+            $designer_name = array('staff_1'=>'天海 春香', 'staff_2'=>'如月 千早', 'staff_3'=>'星井 美希', 'staff_4'=>'萩原 雪歩' ,'staff_5'=>'四条 貴音', 'staff_6'=>'水瀬 伊織');
+            $appoints = Appoint::where('mem_id','like', $mem_id)->orderBy('appoint_st','asc')->skip($startNum)->take($writeList)->get();
+            $dt_appoints = Appoint::where([['mem_id','like', $mem_id],['appoint_st','>=', $date],])->orderBy('appoint_st','asc')->skip($dt_startNum)->take($writeList)->get();
     
             return view('mypage.index', [
+                'totalCount'=>$totalCount,
+                'pageNum'=>$pageNum,
+                'startPage'=>$startPage,
+                'endPage'=>$endPage,
+                'totalPage'=>$totalPage,
+                'dt_totalCount'=>$dt_totalCount,
+                'dt_pageNum'=>$dt_pageNum,
+                'dt_startPage'=>$dt_startPage,
+                'dt_endPage'=>$dt_endPage,
+                'dt_totalPage'=>$dt_totalPage,
                 'appoints' => $appoints,
+                'designer_name'=>$designer_name,
                 'dt_appoints' => $dt_appoints
             ]);
         }
@@ -402,19 +507,15 @@ class AppointController extends Controller
             // 아이디
             $mem_id = session('member_id'); 
             
-            if($request->input('all') != NULL){
-                // 삭제요청
-                Appoint::where('mem_id','like', $mem_id)->delete();
-            } else if($request->input('checked') != NULL) {
+            if($request->input('checked') != NULL) {
                 $checked = $request->input('checked');
                 foreach($checked as $check){
                     Appoint::where('No', $check)->delete();
                 }
+                Alert::error('予約取り消し', '予約が取り消されました。');
             } else {
-                Appoint::where('No', $request->input('delNo'))->delete();
+                Alert::warning('チェックエラー', 'チェックボックスをチェックしてください。');
             }
-    
-            Alert::error('予約取り消し', '予約が取り消されました。');
     
             return redirect('/mypage');
         }
