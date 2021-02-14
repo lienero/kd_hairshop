@@ -2,6 +2,7 @@
 @extends('layouts.sliderbox')
 @extends('layouts.nav_bar_manager')
 @section('content')
+@if(session('rank'))
 <form action="/manager" method="POST">
   {{-- @csrf : CSRF(크로스-사이트 요청 위조 공격)으로부터 보호 --}}
   @csrf
@@ -124,4 +125,7 @@
   </div>
   <br>
 </div>
+@else
+관리자 권한 없음
+@endif
 @endsection

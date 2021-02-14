@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('content')
+@if(session('rank'))
 <form action="/manager/appo_management" method="POST">
     {{-- @csrf : CSRF(크로스-사이트 요청 위조 공격)으로부터 보호 --}}
     @csrf
@@ -71,4 +72,7 @@
         </div>
     </div>
 </form>
+@else
+관리자 권한 없음
+@endif
 @endsection

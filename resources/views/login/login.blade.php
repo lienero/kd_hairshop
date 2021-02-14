@@ -15,7 +15,7 @@
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
           <a href="/login/register" class="font-medium text-blue-600 hover:text-blue-500">
-            ID新規取得
+            会員登録
           </a>
         </p>
       </div>

@@ -69,10 +69,12 @@ Route::post('/manager/shift_management', [ShiftController::class,'shift_store'])
 
 Route::get('/manager/shift_calender', [ShiftController::class,'shift_calender']); 
 
+// 로그인,회원가입
 use App\Http\Controllers\MemberController;
 
-// 로그인,회원가입
-
-Route::POST('/login/login',[MemberController::class,'member_login']);
+Route::post('/login/login',[MemberController::class,'member_login']);
 
 Route::post('/login/register', [MemberController::class,'member_register']);
+
+Route::get('/login/logout',[MemberController::class,'logout']);
+

@@ -9,7 +9,7 @@
         <div class="max-w-md mx-auto">
           <div class="flex items-center space-x-5">
             <div class="block pl-2 font-semibold text-xl self-start text-gray-700">
-              <h2 class="leading-relaxed">新規登録</h2>
+              <h2 class="leading-relaxed">会員登録</h2>
               <p class="text-base text-gray-500 leading-relaxed font-semibold">kd-hairshopへの登録を誠に歓迎します。</p>
             </div>
           </div>

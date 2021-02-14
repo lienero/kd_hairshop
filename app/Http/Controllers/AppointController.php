@@ -7,9 +7,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 // use App\Task를 하면 모델인 Task 클래스를 상속받는다.
 use App\Appoint; // 테이블명 지정
 use App\Shift; // 테이블명 지정
+use App\Member; // 테이블명 지정
 
 class AppointController extends Controller
 {
+    // 예약 캘린터 메소드 
     // use Illuminate\Http\Request 클래스의 변수
     public function index(Request $request) // Request 클래스의 변수 매개변수로 사용
     {
@@ -93,7 +95,9 @@ class AppointController extends Controller
             // 요청된 정보 처리 후 결과 되돌려줌
 
     }
-    public function create() //생성페이지 메소드
+
+    // 예약 정보 입력 페이지
+    public function create() 
     {
         date_default_timezone_set('Asia/Seoul');
 
@@ -112,6 +116,16 @@ class AppointController extends Controller
         $designers = Shift::where('date', $date)->get();
         // 선택한 예약 시간과 일치하는 데이터베이스의 필드 
         $appoints = Appoint::where('appoint_st','like',$datetime)->orwhere('appoint_end','like',$strto_date)->orderBy('appoint_st','asc')->get();
+        
+        $email = NULL;
+        if(session('member_id')){
+            $mem_id = session('member_id');
+            $members = Member::where('mem_id',$mem_id)->get();
+            foreach($members as $member){
+                $email = $member -> mem_email;       
+            }
+        }
+        
         $ap_designer[0] = "test";
         $idx = 0;
         foreach($appoints as $appoint){
@@ -120,12 +134,14 @@ class AppointController extends Controller
             $idx++;
         }
         $ds_appoints = Appoint::where([['designer','like',$designer],['appoint_st','like', $date.'%'],])->orderBy('appoint_st','asc')->get();
+        
         return view('appoint.create', [
             'designers'=>$designers,
             'appoints'=>$appoints,
             'ds_appoints'=>$ds_appoints,
             'designer_name'=>$designer_name,
             'date'=>$date,
+            'email'=>$email,
             'datetime'=>$datetime,
             'designer'=>$designer,
             'time'=>$time,
@@ -134,7 +150,8 @@ class AppointController extends Controller
         ]);
     }
 
-    public function designer(Request $request) //디자니어페이지 메소드
+    // 디자니어페이지 메소드
+    public function designer(Request $request)
     {
         date_default_timezone_set('Asia/Seoul');
         // $year, $month 값이 없으면 현재 날짜
@@ -177,12 +194,18 @@ class AppointController extends Controller
         ]);
     }
 
-    public function store(Request $request) //저장 메소드
+    // 예약 정보 저장 메소드
+    public function store(Request $request) 
     {
         $date = $request->input('date'); // 날짜
         $time =  $request->input('time');
         $designer = $request->input('designer'); // 디자이너
-        $mem_id = $request->input('mem_id');
+        if(session('member_id')){
+            $mem_id = $request->input('mem_id');
+        } else {
+            $mem_id = $request->input('mem_id');
+            $mem_id = $mem_id."(GUEST)";
+        }
         $mem_email = $request->input('email');
         $hair_style = $request->input('hair_style');
         $appoint_st = $date." ".$time; 
@@ -210,7 +233,7 @@ class AppointController extends Controller
         return redirect("/");
     }
 
-        // use Illuminate\Http\Request 클래스의 변수
+        // 예약관리 캘린더 메소드
         public function appo_calender(Request $request) // Request 클래스의 변수 매개변수로 사용
         {
             date_default_timezone_set('Asia/Seoul');
@@ -287,7 +310,8 @@ class AppointController extends Controller
                 ]);
         }
 
-        public function management(Request $request) //매니저 페이지 메소드
+        // 매니저 페이지 메소드
+        public function management(Request $request) 
         {
             date_default_timezone_set('Asia/Seoul');
             // $date 값이 없으면 현재 날짜
@@ -301,7 +325,8 @@ class AppointController extends Controller
             ]);
         }
 
-        public function management_delete(Request $request) //매니저 페이지 메소드
+        // 매니저 페이지 오늘의 예약 삭제 메소드
+        public function management_delete(Request $request) 
         {
             // $date 값이 없으면 현재 날짜
             $date = $request->input('date');
@@ -309,7 +334,6 @@ class AppointController extends Controller
             $appoints = Appoint::where('appoint_st','like', $date.'%')->orderBy('appoint_st','asc')->get();
             
             if($request->input('all') != NULL){
-                // 삭제요청
                 Appoint::where('appoint_st','like', $date.'%')->delete();
             } else if($request->input('checked') != NULL) {
                 $checked = $request->input('checked');
@@ -319,14 +343,13 @@ class AppointController extends Controller
             } else {
                 Appoint::where('No', $request->input('delNo'))->delete();
             }
-    
-            // 삭제요청
             Alert::error('予約取り消し', '予約が取り消されました。');
     
             return redirect('/manager');
         }
 
-        public function appo_management(Request $request) //디자니어페이지 메소드
+        // 예약 관리 메소드
+        public function appo_management(Request $request) 
         {
             // $date 값이 없으면 현재 날짜
             $date = $_GET['date'];
@@ -341,7 +364,8 @@ class AppointController extends Controller
             ]);
         }
 
-        public function appo_delete(Request $request) //저장 메소드
+        // 예약 삭제 메소드
+        public function appo_delete(Request $request) 
         {
             // $date 값이 없으면 현재 날짜
             $date = $request->input('date');
@@ -361,13 +385,13 @@ class AppointController extends Controller
                 Appoint::where('No', $request->input('delNo'))->delete();
             }
     
-            // 삭제요청
             Alert::error('予約取り消し', '予約が取り消されました。');
     
             return redirect('/manager/appo_management?date='.$date.'');
         }
       
-        public function mypage(Request $request) //마이페이지 메소드
+        //마이페이지 메소드
+        public function mypage(Request $request)
         {
             // 임시 아이디
             $mem_id = '이경민'; 
@@ -382,7 +406,8 @@ class AppointController extends Controller
             ]);
         }
 
-        public function mypage_delete(Request $request) //마이페이지 메소드
+        //마이페이지 예약 삭제 메소드
+        public function mypage_delete(Request $request) 
         {
             // 임시 아이디
             $mem_id = '이경민'; 
@@ -399,7 +424,6 @@ class AppointController extends Controller
                 Appoint::where('No', $request->input('delNo'))->delete();
             }
     
-            // 삭제요청
             Alert::error('予約取り消し', '予約が取り消されました。');
     
             return redirect('/mypage');
