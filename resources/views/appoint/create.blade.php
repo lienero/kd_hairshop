@@ -51,13 +51,13 @@
     </div>
     @endif
     <div class="container mx-auto">
-        <div class="" mbsc-form style="">
-            <div class="mbsc-grid mbsc-form-grid">
-                <div class="mx-auto mbsc-col-sm-12 mbsc-col-md-6">
+        <div class="">
+            <div class="grid form-grid">
+                <div class="mx-auto col-sm-12 col-md-6 text-xl font-semibold">
                     @if($designer == 'x')
                     <label>
                         職員選び
-                        <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="designer">
+                        <select data-input-style="box" name="designer" class="text-black font-semibold rounded">
                             <?php
                             foreach ($designers as $designer) {
                                 for($j = 1; $j < 7; $j++ ){
@@ -70,7 +70,7 @@
                                             }
                                         }
                                         if($count == 0){
-                                            echo '<option value="'.$staff.'">'.$designer_name[$staff].'</option>';
+                                            echo '<option value="'.$staff.'" class="text-black font-semibold">'.$designer_name[$staff].'</option>';
                                         }
                                     }
                                 }     
@@ -78,22 +78,27 @@
                             ?>
                         </select>
                     </label>
-                    <label>
+                    <br>
+                    <br>
+                    <label class="">
                         時間選び
-                        <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="time">
-                            <option value="{{$time}}">{{$datetime}}</option>
+                        <select dropdown id="" data-input-style="box" name="time" class="text-black font-semibold rounded" >
+                            <option value="{{$time}}" class="text-black font-semibold">{{$datetime}}</option>
                         </select>
                     </label>
+                    <br>
+                    <br>
                     @else
                     <label>
                         職員選び
-                        <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="designer">
-                            <option value="{{$designer}}">{{$designer_name[$designer]}}</option>
+                        <select dropdown id= data-input-style="box" name="designer" class="text-black font-semibold rounded">
+                            <option value="{{$designer}}" class="text-black font-semibold">{{$designer_name[$designer]}}</option>
                         </select>
                     </label>
+                    <br>
                     <label>
                         時間選び
-                        <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="time">
+                        <select dropdown id="" data-input-style="box" name="time" class="text-black font-semibold rounded">
                             <?php
                             $j = 0;
                             $page_count = 0;
@@ -172,13 +177,15 @@
                             ?>
                         </select>
                     </label>
+                    <br>
+                    <br>
                     @endif
                     <label>
                         ヘアスタイル選び
-                        <select mbsc-dropdown id="demo-desktop" data-input-style="box" name="hair_style">
-                            <option value="Cut">カット: 5,000 円（30 分）</option>
-                            <option value="Perm">パーマ：6,000 円（1 時間）</option>
-                            <option value="Color">カラー：4,000 円 (1 時間）</option>
+                        <select id="" data-input-style="box" name="hair_style" class="text-black font-semibold rounded">
+                            <option value="Cut" class="font-semibold">カット: 5,000 円（30 分）</option>
+                            <option value="Perm" class="font-semibold">パーマ：6,000 円（1 時間）</option>
+                            <option value="Color" class="font-semibold">カラー：4,000 円 (1 時間）</option>
                         </select>
                     </label>
                 </div>
@@ -186,6 +193,7 @@
         </div>
     </div>
     </div>
+    <br>
     <div class="flex justify-center">
         <input type="submit" value="予約"
             class="bg-gray-900 rounded-lg font-bold text-lg text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-gray-200 hover:text-gray-900 mr-6" />
