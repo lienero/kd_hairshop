@@ -21,13 +21,17 @@
               </div>
               <div class="flex flex-col">
                 <label class="leading-loose font-semibold">パスワード</label>
-                <input type="text" name = "password"  class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Password" required>
+                <input type="password" name = "password" id="pw"  class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Password" onKeyup="safetyPasswordPattern(this); isSame();" required>
               </div>
+              <!-- id="makyText" : onkeyyup 할 시 작동하는 함수가 변경하는 html  -->
+              <div class="sm:text-sm" id="makyText">:: パスワードをご入力ください ::</div>
               
               <div class="flex flex-col">
                 <label class="leading-loose font-semibold">パスワード確認</label>
-                <input type="text" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Password" required>
+                <input type="password" name = "pwcheck" id = "pwcheck" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Password" onKeyup="isSame();" required>
               </div>
+              <!-- id="same" : onkeyyup 할 시 작동하는 함수가 변경하는 html  -->
+              <div class="sm:text-sm" id="same">パスワードを確認してください.</div>
               <div class="flex flex-col">
                 <label class="leading-loose font-semibold">メールアドレス</label>
                 <input type="text" name = "email" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Mail address" required>

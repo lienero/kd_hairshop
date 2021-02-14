@@ -16,17 +16,34 @@ class MemberController extends Controller
     {
         $mem_id = $request->input('id'); 
         $mem_pw =  $request->input('password'); 
+        $pw_check = $request->input('pwcheck'); 
         $mem_email = $request->input('email');
 
-        $member= new Member;
-        $member->mem_id = $mem_id;
-        $member->mem_pw  = Hash::make($mem_pw);
-        $member->mem_email = $mem_email;
-        $member->save();
+        $members = Member::where('mem_id',$mem_id)->get();
+        foreach($members as $member){
+            Alert::error('ID重複', 'このIDは他の方が使っているIDです。');
+            return redirect("/login/register");
+        }
 
-        Alert::success('会員登録完了', '会員登録が完了されました。');
+        if(strlen($mem_pw) >= 8){
+            if($mem_pw == $pw_check){
+                $member= new Member;
+                $member->mem_id = $mem_id;
+                $member->mem_pw  = Hash::make($mem_pw);
+                $member->mem_email = $mem_email;
+                $member->save();
+        
+                Alert::success('会員登録完了', '会員登録が完了されました。');
 
-        return redirect("/login/login");
+                return redirect("/login/login");
+            } else {
+                Alert::error('パスワードエラー', 'パスワードの確認が間違っています。');
+                return redirect("/login/register");
+            }
+        } else {
+            Alert::error('パスワードエラー', 'パスワードの長さが間違っています。');
+            return redirect("/login/register");
+        }    
     }
 
     // 로그인 메소드
@@ -49,7 +66,7 @@ class MemberController extends Controller
         }
 
         if($mem_id != $id){
-            Alert::warning('ID間違', 'IDが間違っています。');  
+            Alert::warning('IDエラー', 'IDが間違っています。');  
             return redirect("/login/login");
         }else{
             if (Hash::check($mem_pw, $password)) {
@@ -159,5 +176,50 @@ class MemberController extends Controller
         }
 
         return redirect("/manager/member_management");
-     }    
+     } 
+     
+     public function password_find(request $request)
+     {
+         return view('login.password_set');
+      }
+
+      public function password_reset(request $request)
+      {
+            $mem_id = $request->input('id'); 
+            $mem_pw =  $request->input('password');
+            $hash_pw = Hash::make($mem_pw);
+            $mem_email = $request->input('email');
+
+            $id=NULL;
+            $password=NULL;
+            $email=NULL;
+
+            $members = Member::where('mem_id',$mem_id)->get();
+    
+            foreach($members as $member){
+                $id = $member -> mem_id;
+                $password = $member -> mem_pw;
+                $email = $member -> mem_email;        
+            }
+
+            if($id == $mem_id){
+                if($email == $mem_email){
+                    if(strlen($mem_pw) >= 8){
+                        Member::where('mem_id', $mem_id)->update(['mem_pw' => $hash_pw]);
+                        Alert::success('パスワード変更成功', 'パスワード変更に成功しました。');
+                        return redirect("/login/login");
+                    } else {
+                        Alert::error('パスワードエラー', 'パスワードの長さが間違っています。');
+                        return view('login.password_set');
+                    }
+                } else {
+                    Alert::warning('メールアドレスエラー', 'メールアドレスが間違っています。'); 
+                    return view('login.password_set');
+                }
+            } else {
+                Alert::warning('IDエラー', 'IDが間違っています。');
+                return view('login.password_set');
+            }
+       }
+
 }

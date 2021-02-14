@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/css/mobiscroll.javascript.min.css">
     <script src="/js/mobiscroll.javascript.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src ="/js/checks.js"></script>
 </head>
 <body class="font-sans bg-gray-700 text-white">
     @include('sweetalert::alert')
