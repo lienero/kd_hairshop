@@ -117,15 +117,6 @@ class AppointController extends Controller
         // 선택한 예약 시간과 일치하는 데이터베이스의 필드 
         $appoints = Appoint::where('appoint_st','like',$datetime)->orwhere('appoint_end','like',$strto_date)->orderBy('appoint_st','asc')->get();
         
-        $email = NULL;
-        if(session('member_id')){
-            $mem_id = session('member_id');
-            $members = Member::where('mem_id',$mem_id)->get();
-            foreach($members as $member){
-                $email = $member -> mem_email;       
-            }
-        }
-        
         $ap_designer[0] = "test";
         $idx = 0;
         foreach($appoints as $appoint){
@@ -141,7 +132,6 @@ class AppointController extends Controller
             'ds_appoints'=>$ds_appoints,
             'designer_name'=>$designer_name,
             'date'=>$date,
-            'email'=>$email,
             'datetime'=>$datetime,
             'designer'=>$designer,
             'time'=>$time,
@@ -393,8 +383,8 @@ class AppointController extends Controller
         //마이페이지 메소드
         public function mypage(Request $request)
         {
-            // 임시 아이디
-            $mem_id = '이경민'; 
+            // 아이디
+            $mem_id = session('member_id'); 
             $date = date("Y-m-d H:i:s");
 
             $appoints = Appoint::where('mem_id','like', $mem_id)->get();
@@ -409,8 +399,8 @@ class AppointController extends Controller
         //마이페이지 예약 삭제 메소드
         public function mypage_delete(Request $request) 
         {
-            // 임시 아이디
-            $mem_id = '이경민'; 
+            // 아이디
+            $mem_id = session('member_id'); 
             
             if($request->input('all') != NULL){
                 // 삭제요청

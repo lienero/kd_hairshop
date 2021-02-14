@@ -25,7 +25,7 @@
             <input type="hidden" id="name" name="mem_id" value="{{session('member_id')}}" type="text" placeholder="予約者名" required style="color :black; font-weight:bold;">
         </div>
         <div class="appearance-none label-floating">
-            <input type="hidden" id="name" name="email" value="{{$email}}" type="text" placeholder="メールアドレス" required style="color :black; font-weight:bold;">
+            <input type="hidden" id="name" name="email" value="{{session('email')}}" type="text" placeholder="メールアドレス" required style="color :black; font-weight:bold;">
         </div>
     </div>    
     @else

@@ -37,11 +37,13 @@ class MemberController extends Controller
         $members = Member::where('mem_id',$mem_id)->get();
         $id=NULL;
         $password=NULL;
+        $email=NULL;
         $rank=NULL;
 
         foreach($members as $member){
             $id = $member -> mem_id;
             $password = $member -> mem_pw;
+            $email = $member -> mem_email;    
             $rank = $member -> rank;       
         }
 
@@ -52,11 +54,13 @@ class MemberController extends Controller
             if (Hash::check($mem_pw, $password)) {
                 if($rank == "manager"){
                     $request->session()->put('member_id', $mem_id);
+                    $request->session()->put('email', $email);
                     $request->session()->put('rank', $rank);
                     Alert::success('管理者ログイン完了', 'ログインが完了されました。');
                     return redirect("/manager");
                 }else{
                     $request->session()->put('member_id', $mem_id);
+                    $request->session()->put('email', $email);
                     Alert::success('ログイン完了', 'ログインが完了されました。');
                     return redirect("/");
                 }
@@ -67,9 +71,11 @@ class MemberController extends Controller
         }           
     }
 
+    // 로그아웃 메소드
     public function logout(request $request)
     {
         $request->session()->forget('member_id');
+        $request->session()->forget('email');
         if(session('rank')){
             $request->session()->forget('rank'); 
         }
@@ -78,4 +84,24 @@ class MemberController extends Controller
 
         return redirect("/");
     }
+
+    // 회원탈퇴 메소드
+    public function delete_member(Request $request) 
+    {
+        if(session('member_id')){
+            $mem_id = session('member_id');
+            Member::where('mem_id',$mem_id)->delete();
+            $request->session()->forget('member_id');
+            $request->session()->forget('email');
+            if(session('rank')){
+                $request->session()->forget('rank'); 
+            }
+            Alert::success('会員退会', '会員退会が完了されました。');
+            return redirect("/");
+        } else {
+            Alert::warning('会員退会失敗', '会員退会に失敗しました');
+            return redirect("/mypage");
+        }
+   }
+    
 }

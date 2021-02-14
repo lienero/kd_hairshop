@@ -16,14 +16,6 @@ Route::get('/login/register', function () {
     return view('login.register');
 });
 
-Route::get('/price', function () {
-    return view('price');
-});
-
-Route::get('/manager/shift_management', function () {
-    return view('manager.shift_management');
-});
-
 
 // routes/web.php 에 정의된 라우트는 브라우저를 통해서 유입되는 라우트 URL을 정의하는데 사용
 // Route::메소드('URL경로', '컨트롤러의 클래스명@메소드명'); 을 지정
@@ -77,4 +69,7 @@ Route::post('/login/login',[MemberController::class,'member_login']);
 Route::post('/login/register', [MemberController::class,'member_register']);
 
 Route::get('/login/logout',[MemberController::class,'logout']);
+
+// 유저 관리 및 탈퇴
+Route::get('/mypage/delete_member', [MemberController::class,'delete_member']);
 

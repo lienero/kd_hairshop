@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @extends('layouts.footer')
 @section('content')
-<form action="/manager/appo_management" method="POST">
+<form action="/mypage" method="POST">
     {{-- @csrf : CSRF(크로스-사이트 요청 위조 공격)으로부터 보호 --}}
     @csrf
     <div class="container mx-auto mt-5">
@@ -24,15 +24,15 @@
                 <tbody class="bg-white">
                     <tr>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                            <div class="text-sm leading-5 text-blue-900">이경민</div>
+                            <div class="text-sm leading-5 text-blue-900">{{session('member_id')}}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                            매니저@gmial.com
+                            {{session('email')}}
                         </td>
-                        <input type="hidden" name="mode" value="1">
                         <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-                            <button type="submit" class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">会員退会</button>
+                            <button type="button" onclick="location.href='/mypage/delete_member'" class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">会員退会</button>
                         </td>
+                        </form>
                     </tr>
                 </tbody>
             </table>
