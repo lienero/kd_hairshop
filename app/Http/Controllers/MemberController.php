@@ -30,7 +30,8 @@ class MemberController extends Controller
     }
 
     // 로그인 메소드
-    public function member_login(request $request){
+    public function member_login(request $request)
+    {
         $mem_id = $request->input('id'); 
         $mem_pw = $request->input('password'); 
         $mem_password = Hash::make($mem_pw);
@@ -103,5 +104,60 @@ class MemberController extends Controller
             return redirect("/mypage");
         }
    }
-    
+
+   // 회원관리 메소드
+   public function member_management(request $request)
+   {
+        $pageNum     = $request->input('page');
+        // view에서 넘어온 현재페이지의 파라미터 값.
+        $pageNum     = (isset($pageNum)?$pageNum:1);
+        // 페이지 번호가 없으면 1, 있다면 그대로 사용
+        $startNum    = ($pageNum-1)*10;
+        // 페이지 내 첫 게시글 번호
+        $writeList   = 10;
+        // 한 페이지당 표시될 글 갯수
+        $pageNumList = 10;
+        // 전체 페이지 중 표시될 페이지 갯수
+        $pageGroup   = ceil($pageNum/$pageNumList);
+        // 페이지 그룹 번호
+        $startPage   = (($pageGroup-1)*$pageNumList)+1;
+        // 페이지 그룹 내 첫 페이지 번호
+        $endPage     = $startPage + $pageNumList-1;
+        // 페이지 그룹 내 마지막 페이지 번호
+        $totalCount  = Member::where('rank','<>','manager')->count();
+        // 전체 게시글 갯수
+        $totalPage   = ceil($totalCount/$writeList);
+        // 전체 페이지 갯수
+        if($endPage >= $totalPage) {
+        $endPage = $totalPage;
+        } // 페이지 그룹이 마지막일 때 마지막 페이지 번호
+       $members = Member::where('rank','<>','manager')->skip($startNum)->take($writeList)->get();
+
+       return view('manager.member_management', [
+            'totalCount'=>$totalCount,
+            'pageNum'=>$pageNum,
+            'startPage'=>$startPage,
+            'endPage'=>$endPage,
+            'totalPage'=>$totalPage,
+            'members' => $members
+        ]);
+    }
+ 
+    // 회원 삭제 메소드
+    public function members_delete(request $request)
+    {
+        $members = Member::get();
+ 
+        if($request->input('checked') != NULL) {
+            $checked = $request->input('checked');
+            foreach($checked as $check){
+                Member::where('mem_id', $check)->delete();
+            }
+            Alert::success('会員退会', '会員退会が完了されました。');
+        } else {
+            Alert::warning('チェックエラー', 'チェックボックスをチェックしてください。');
+        }
+
+        return redirect("/manager/member_management");
+     }    
 }

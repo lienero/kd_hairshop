@@ -77,3 +77,7 @@ Route::get('/login/logout',[MemberController::class,'logout']);
 // 유저 관리 및 탈퇴
 Route::get('/mypage/delete_member', [MemberController::class,'delete_member']);
 
+Route::get('/manager/member_management', [MemberController::class,'member_management']);
+
+Route::post('/manager/member_management', [MemberController::class,'members_delete']);
+
