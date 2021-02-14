@@ -74,6 +74,10 @@ Route::post('/login/register', [MemberController::class,'member_register']);
 
 Route::get('/login/logout',[MemberController::class,'logout']);
 
+Route::get('/login/password_set',[MemberController::class,'password_find']);
+
+Route::post('/login/password_set',[MemberController::class,'password_reset']);
+
 // 유저 관리 및 탈퇴
 Route::get('/mypage/delete_member', [MemberController::class,'delete_member']);
 
