@@ -34,9 +34,9 @@
                 </li>
             </ul>
             <ul class="flex flex-col md:flex-row items-cneter">
-                @if ( session('member_id') )
+                @if(session('member_id'))
                 <li class="md:ml-16 mt-3 md:mt-0">
-                    <a href="/login/login" class="hover:text-gray-300 font-bold">ログアウト</a>
+                    <a href="/login/logout" class="hover:text-gray-300 font-bold">ログアウト</a>
                 </li>
                 @else
                 <li class="md:ml-16 mt-3 md:mt-0">

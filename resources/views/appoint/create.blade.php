@@ -7,13 +7,29 @@
     <div class="w-full bg-cover bg-center" style="height:32rem; background-image:url(/img/hair1.jpg)">
         <div class="flex items-center justify-center h-full w-full bg-gray-900 bg-opacity-50">
             <div class="text-center">
-                <h1 class="text-white text-2xl font-semibold uppercase md:text-3xl">KD-hairshop <span
-                        class="underline text-white">非会員予約</span></h1>
+                <h1 class="text-white text-2xl font-semibold uppercase md:text-3xl">KD-hairshop \
+                    @if(session('member_id'))
+                    <span class="underline text-white">会員予約</span>
+                    @else
+                    <span class="underline text-white">非会員予約</span>
+                    @endif
+                </h1>
             </div>
         </div>
     </div>
     <br>
+    @if(session('member_id'))
     <div class="container mx-auto">
+        <div class="appearance-none label-floating">
+            <input type="hidden" id="date" name="date" value="{{$date}}">
+            <input type="hidden" id="name" name="mem_id" value="{{session('member_id')}}" type="text" placeholder="予約者名" required style="color :black; font-weight:bold;">
+        </div>
+        <div class="appearance-none label-floating">
+            <input type="hidden" id="name" name="email" value="{{session('email')}}" type="text" placeholder="メールアドレス" required style="color :black; font-weight:bold;">
+        </div>
+    </div>    
+    @else
+    <div class="container mx-auto">    
         <div class="appearance-none label-floating">
             <input type="hidden" id="date" name="date" value="{{$date}}">
             <input
@@ -31,8 +47,9 @@
             <label for="name"
                 class="absolute tracking-wide py-2 px-4 mb-4 opacity-0 leading-tight block top-0 left-0 cursor-text">
             </label>
-        </div>
+        </div>        
     </div>
+    @endif
     <div class="container mx-auto">
         <div class="" mbsc-form style="">
             <div class="mbsc-grid mbsc-form-grid">
