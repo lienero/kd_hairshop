@@ -1,3 +1,3 @@
 kanda_hair_shopです。
 {{ $detail }}
-　{{ $name}}様。
+{{ $name}}様。
