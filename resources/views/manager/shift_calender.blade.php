@@ -132,7 +132,8 @@ Shift Calendar
                             echo '<a style = "color:'.$style.'" href="/manager/shift_management?date='.$date.'">'.$day;
                             for($k=0; $k<6; $k++){
                                 if($ds_staff[$k] == 'on'){
-                                    echo '<div class="staff_'.($k+1).'" style="font-size: 9pt">staff_'.($k+1).'</div>';
+                                    $staff_name = "staff_".($k+1);
+                                    echo '<div class="'.$staff_name.'" style="font-size: 9pt">'.$designer_name[$staff_name].'</div>';
                                 }
                             }
                             echo '</a>';
